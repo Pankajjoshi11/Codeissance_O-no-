@@ -1,6 +1,22 @@
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: [true, 'User ID is required'],
+    unique: true,
+  },
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true,
+  },
+  mobileNumber: {
+    type: String,
+    required: [true, 'Mobile number is required'],
+    unique: true,
+    match: [/^\d{10}$/, 'Please enter a valid 10-digit mobile number'],
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],
