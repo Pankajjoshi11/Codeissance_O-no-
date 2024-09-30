@@ -9,21 +9,22 @@ export default async function handler(req, res) {
     const { name, email, mobileNumber, userId, password } = req.body;
 
     // Validate input
-    if (!name || !email || !mobileNumber || !userId || !password) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
+    console.log(req.body)
+    // if (!name || !email || !mobileNumber || !userId || !password) {
+    //   return res.status(400).json({ error: 'All fields are required' });
+    // }
 
     // Connect to the database
     const { db } = await connectMongo();
 
     // Check if user already exists
-    const existingUser = await db.collection('users').findOne({ $or: [{ email }, { userId }] });
+    const existingUser = await db.collection('User').findOne({ $or: [{ email }, { userId }] });
     if (existingUser) {
       return res.status(400).json({ error: 'User with this email or userId already exists' });
     }
 
     // Create new user with plain text password
-    const result = await db.collection('Users').insertOne({
+    const result = await db.collection('User').insertOne({
       name,
       email,
       mobileNumber,
