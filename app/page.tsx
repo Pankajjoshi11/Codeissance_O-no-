@@ -95,6 +95,8 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        console.log("Attempting to connect to MongoDB with URI:", uri);
+
       </footer>
     </div>
   );
