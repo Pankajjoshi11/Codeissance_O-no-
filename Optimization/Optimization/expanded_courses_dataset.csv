@@ -1,0 +1,11 @@
+course_id,course_name,course_description,topics,difficulty,prerequisites
+C001,Introduction to Financial Literacy,A foundational course on financial literacy concepts.,"Financial Concepts, Budgeting, Saving",Beginner,
+C002,Investment Strategies 101,Learn various investment strategies and their applications.,"Investing, Risk Management, Portfolio Diversification",Intermediate,C001
+C003,Personal Budgeting Basics,Master the basics of creating and managing a personal budget.,"Budgeting, Savings Goals, Expense Tracking",Beginner,C002
+C004,Understanding Credit Scores,Explore how credit scores work and their impact on finances.,"Credit Scores, Loans, Financial Health",Intermediate,
+C005,Retirement Planning Essentials,Essential strategies for planning for retirement effectively.,"Retirement Accounts, Savings, Financial Planning",Advanced,C003
+C006,Advanced Investment Techniques,Deep dive into advanced investment techniques and analysis.,"Investment Analysis, Risk Assessment, Market Trends",Advanced,C002
+C007,Debt Management Strategies,Understand how to manage and reduce debt effectively.,"Debt Reduction, Credit Management, Financial Planning",Intermediate,C001
+C008,Tax Planning for Individuals,Learn strategies for tax planning to optimize personal finances.,"Tax Strategies, Deductions, Financial Planning",Advanced,C003
+C009,Financial Goal Setting,Set and achieve your financial goals with effective strategies.,"Goal Setting, Financial Planning, Motivation",Beginner,
+C010,Investment Psychology,Explore the psychological aspects of investing and decision-making.,"Behavioral Finance, Market Psychology, Investor Behavior",Intermediate,C005
