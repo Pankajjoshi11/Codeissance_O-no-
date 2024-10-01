@@ -1,39 +1,35 @@
-// /pages/api/users/login.js
+// app/api/auth/users/login/route.js
 
-import  connectMongo  from '../../../lib/mongodb';
-import User from '../../../models/User';
+import connectMongo from '../../../lib/mongodb'; // Adjust the path as necessary
+import User from '../../../models/User'; // Adjust the path as necessary
+import { NextResponse } from 'next/server';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
+export async function POST(req) {
     await connectMongo();
 
-    const { userId, password } = req.body;
+    const { userId, password } = await req.json();
 
     // Validate input
     if (!userId || !password) {
-      return res.status(400).json({ error: 'User ID and password are required' });
+        return NextResponse.json({ error: 'User ID and password are required' }, { status: 400 });
     }
 
     try {
-      // Find the user by userId
-      const user = await User.findOne({ userId });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
+        // Find the user by userId
+        const user = await User.findOne({ userId });
+        if (!user) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
 
-      // Check if the password matches
-      if (user.password !== password) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
+        // Check if the password matches
+        if (user.password !== password) {
+            return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+        }
 
-      // Authentication successful
-      res.status(200).json({ message: 'Login successful', user });
+        // Authentication successful
+        return NextResponse.json({ message: 'Login successful', user });
     } catch (error) {
-      console.error('Error in login:', error);
-      res.status(500).json({ error: 'Internal Server Error', details: error.message });
+        console.error('Error in login:', error);
+        return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-  }
 }

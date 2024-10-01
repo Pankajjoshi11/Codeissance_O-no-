@@ -66,29 +66,7 @@ export default function FinancialNewsPage() {
   return (
     <div className="min-h-screen bg-[#171717] text-white">
       {/* Header */}
-      <header className="bg-black bg-opacity-50 py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <h1 className="text-2xl font-bold mr-8">FinNews</h1>
-             
-            </div>
-            <div className="relative w-full md:w-64">
-              <Input
-                type="text"
-                placeholder="Search articles..."
-                className="w-full pl-10 pr-4 py-2 rounded-full bg-white bg-opacity-10 focus:bg-opacity-20 transition-all duration-300"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">

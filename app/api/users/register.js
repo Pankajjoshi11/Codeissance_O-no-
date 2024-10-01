@@ -1,41 +1,33 @@
-import connectMongo from '../../../lib/mongodb';
+// app/api/auth/users/register/route.ts
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+import connectMongo from '../../../../lib/mongodb'; // Adjust the path as necessary
+import User from '../../../../models/User'; // Adjust the path as necessary
+import { NextResponse } from 'next/server';
 
-  try {
-    const { name, email, mobileNumber, userId, password } = req.body;
+export async function POST(req: Request) {
+    await connectMongo();
+
+    const { name, email, mobileNumber, userId, password } = await req.json();
 
     // Validate input
-    console.log(req.body)
-    // if (!name || !email || !mobileNumber || !userId || !password) {
-    //   return res.status(400).json({ error: 'All fields are required' });
-    // }
-
-    // Connect to the database
-    const { db } = await connectMongo();
-
-    // Check if user already exists
-    const existingUser = await db.collection('User').findOne({ $or: [{ email }, { userId }] });
-    if (existingUser) {
-      return res.status(400).json({ error: 'User with this email or userId already exists' });
+    if (!name || !email || !mobileNumber || !userId || !password) {
+        return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 
-    // Create new user with plain text password
-    const result = await db.collection('User').insertOne({
-      name,
-      email,
-      mobileNumber,
-      userId,
-      password, // Storing password as plain text (NOT RECOMMENDED)
-      createdAt: new Date(),
-    });
+    try {
+        // Check if the user already exists
+        const existingUser = await User.findOne({ userId });
+        if (existingUser) {
+            return NextResponse.json({ error: 'User already exists' }, { status: 400 });
+        }
 
-    res.status(201).json({ message: 'User registered successfully', userId: result.insertedId });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+        // Create a new user (hash the password in production)
+        const newUser = new User({ name, email, mobileNumber, userId, password });
+        await newUser.save();
+
+        return NextResponse.json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error in registration:', error);
+        return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+    }
 }

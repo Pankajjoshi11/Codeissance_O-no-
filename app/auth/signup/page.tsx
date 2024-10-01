@@ -10,57 +10,11 @@ export default function SignupPage() {
   const [phone, setPhone] = useState('')
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
-    setSuccess(false)
-
-    // Log the field values before sending them
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Phone:", phone);
-    console.log("User ID:", userId);
-    console.log("Password:", password);
-
-    // Construct user data object
-    const userData = {
-      name,
-      email,
-      mobileNumber: phone, // Ensure this matches the backend expected field
-      userId,
-      password,
-    }
-
-    console.log("User Data:", userData); // Log the user data object
-
-    try {
-      const response = await fetch('/api/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      })
-
-      console.log(JSON.stringify(userData))
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || 'Failed to register')
-      }
-
-      // If registration is successful
-      setSuccess(true)
-    } catch (error: any) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
-    }
+    // Here you would typically send the form data to your backend for processing
+    console.log('Signup attempt with:', { name, email, phone, userId, password })
   }
 
   return (
@@ -74,7 +28,9 @@ export default function SignupPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-[#4f47e6]">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+            <label htmlFor="name" className="block text-sm font-medium mb-2">
+              Name
+            </label>
             <input
               id="name"
               type="text"
@@ -85,7 +41,9 @@ export default function SignupPage() {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium mb-2">
+              Email
+            </label>
             <input
               id="email"
               type="email"
@@ -96,7 +54,9 @@ export default function SignupPage() {
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone</label>
+            <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              Phone
+            </label>
             <input
               id="phone"
               type="tel"
@@ -107,7 +67,9 @@ export default function SignupPage() {
             />
           </div>
           <div>
-            <label htmlFor="userId" className="block text-sm font-medium mb-2">User ID</label>
+            <label htmlFor="userId" className="block text-sm font-medium mb-2">
+              User ID
+            </label>
             <input
               id="userId"
               type="text"
@@ -118,7 +80,9 @@ export default function SignupPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium mb-2">
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -128,16 +92,13 @@ export default function SignupPage() {
               required
             />
           </div>
-          {error && <p className="text-red-500">{error}</p>}
-          {success && <p className="text-green-500">Registration successful!</p>}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
             className="w-full bg-[#4f47e6] text-white py-2 px-4 rounded-md hover:bg-[#3f37d6] transition duration-200"
-            disabled={loading}
           >
-            {loading ? 'Signing Up...' : 'Sign Up'}
+            Sign Up
           </motion.button>
         </form>
         <p className="mt-4 text-center">
