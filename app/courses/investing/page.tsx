@@ -293,7 +293,7 @@ function Quiz({ questions, onComplete }: QuizProps) {
             {questions[currentQuestionIndex].options.map((option, index) => (
               <Button
                 key={index}
-                className="w-full text-black border-[#4f47e6] hover:bg-[#4f47e6] hover:text-white"
+                className="w-full text-white border-[#4f47e6] hover:bg-[#4f47e6] hover:text-white"
                 onClick={() => handleAnswer(index)}
               >
                 {option}

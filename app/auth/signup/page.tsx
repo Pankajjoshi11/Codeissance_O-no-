@@ -92,14 +92,17 @@ export default function SignupPage() {
               required
             />
           </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            className="w-full bg-[#4f47e6] text-white py-2 px-4 rounded-md hover:bg-[#3f37d6] transition duration-200"
-          >
-            Sign Up
-          </motion.button>
+          <Link href='/auth/login'>
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                type="submit"
+                className="w-full bg-[#4f47e6] text-white py-2 px-4 rounded-md hover:bg-[#3f37d6] transition duration-200"
+            >
+                Sign Up
+            </motion.button>
+          </Link>
+          
         </form>
         <p className="mt-4 text-center">
           Already have an account?{' '}

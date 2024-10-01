@@ -99,7 +99,7 @@ export default function StockPage() {
           [stock.symbol]: { quantity: newQuantity, averageBuyPrice: newAverageBuyPrice }
         }
       })
-      toast.success(`Bought ${quantity} share${quantity > 1 ? 's' : ''} of ${stock.symbol} for $${totalCost.toFixed(2)}`)
+      toast.success(<ToastContent action="Bought" symbol={stock.symbol} quantity={quantity} totalCost={totalCost} />)
       setIsBuyModalOpen(false)
       setQuantity(1)
     } else {
@@ -126,6 +126,14 @@ export default function StockPage() {
       toast.error(`You don't have enough ${stock?.symbol} stocks to sell!`)
     }
   }
+
+  const ToastContent = ({ action, symbol, quantity, totalCost }: { action: string; symbol: string; quantity: number; totalCost: number }) => (
+    <div>
+      {action} {quantity} share{quantity > 1 ? 's' : ''} of {symbol} for ${totalCost.toFixed(2)}
+      <br />
+      Estimated cost: ${totalCost.toFixed(2)}
+    </div>
+  )
 
   if (!stock) {
     return <div className="flex items-center justify-center h-screen bg-gray-900 text-white">Loading...</div>
@@ -187,47 +195,70 @@ export default function StockPage() {
           <CardContent>
             <div>
               {Object.keys(portfolio).length === 0 ? (
-                <p className="text-white">No stocks in your portfolio.</p>
+                <p className="text-white">No stocks in your portfolio yet.</p>
               ) : (
-                <ul>
-                  {Object.entries(portfolio).map(([symbol, { quantity, averageBuyPrice }]) => (
-                    <li key={symbol} className="flex justify-between mb-2">
-                      <span>{symbol}</span>
-                      <span>{quantity} @ ${averageBuyPrice.toFixed(2)}</span>
-                    </li>
-                  ))}
-                </ul>
+                <table className="w-full text-white">
+                  <thead>
+                    <tr>
+                      <th className="text-left px-4 py-2">Symbol</th>
+                      <th className="text-left px-4 py-2">Quantity</th>
+                      <th className="text-left px-4 py-2">Average Buy Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(portfolio).map(([symbol, holding]) => (
+                      <tr key={symbol}>
+                        <td className="border-t border-gray-700 px-4 py-2">{symbol}</td>
+                        <td className="border-t border-gray-700 px-4 py-2">{holding.quantity}</td>
+                        <td className="border-t border-gray-700 px-4 py-2">${holding.averageBuyPrice.toFixed(2)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )}
             </div>
-            <p className="mt-4">Cash Balance: ${cash.toFixed(2)}</p>
           </CardContent>
         </Card>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+
+      {/* Buy Modal */}
       <Dialog open={isBuyModalOpen} onOpenChange={setIsBuyModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Buy {stock.symbol}</DialogTitle>
+            <DialogTitle>Buy {stock.symbol} Stock</DialogTitle>
           </DialogHeader>
-          <Input type="number" min="1" value={quantity} onChange={(e) => setQuantity(Math.max(1, +e.target.value))} />
+          <div className="flex items-center justify-between mt-4">
+            <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))} className="p-2 bg-gray-600 text-white rounded-none"><MinusIcon /></button>
+            <Input type="number" value={quantity} readOnly className="mx-4 text-center rounded-none" />
+            <button onClick={() => setQuantity(prev => prev + 1)} className="p-2 bg-gray-600 text-white rounded-none"><PlusIcon /></button>
+          </div>
           <DialogFooter>
-            <Button onClick={buyStock}>Confirm Purchase</Button>
             <Button variant="outline" onClick={() => setIsBuyModalOpen(false)}>Cancel</Button>
+            <Button onClick={buyStock}>Confirm</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Sell Modal */}
       <Dialog open={isSellModalOpen} onOpenChange={setIsSellModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Sell {stock.symbol}</DialogTitle>
+            <DialogTitle>Sell {stock.symbol} Stock</DialogTitle>
           </DialogHeader>
-          <Input type="number" min="1" value={quantity} onChange={(e) => setQuantity(Math.max(1, +e.target.value))} />
+          <div className="flex items-center justify-between mt-4">
+            <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))} className="p-2 bg-gray-600 text-white rounded-none"><MinusIcon /></button>
+            <Input type="number" value={quantity} readOnly className="mx-4 text-center rounded-none" />
+            <button onClick={() => setQuantity(prev => prev + 1)} className="p-2 bg-gray-600 text-white rounded-none"><PlusIcon /></button>
+          </div>
           <DialogFooter>
-            <Button onClick={sellStock}>Confirm Sale</Button>
             <Button variant="outline" onClick={() => setIsSellModalOpen(false)}>Cancel</Button>
+            <Button onClick={sellStock}>Confirm</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <ToastContainer />
     </div>
   )
 }
