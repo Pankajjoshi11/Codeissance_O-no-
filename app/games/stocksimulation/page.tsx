@@ -186,7 +186,7 @@ export default function StockPage() {
         </Card>
         <div className="flex justify-between mb-8">
           <Button onClick={() => setIsBuyModalOpen(true)} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 text-lg rounded-none">Buy</Button>
-          <Button onClick={() => setIsSellModalOpen(true)} variant="outline" className="border-red-500 text-white hover:bg-red-500 hover:text-white px-8 py-3 text-lg rounded-none">Sell</Button>
+          <Button onClick={() => setIsSellModalOpen(true)} variant="outline" className="border-red-500 text-white bg-red-500 hover:bg-red-600 hover:text-white px-8 py-3 text-lg rounded-none">Sell</Button>
         </div>
         <Card className="bg-gray-800 border-gray-700 rounded-none">
           <CardHeader>
@@ -225,40 +225,48 @@ export default function StockPage() {
       <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 
       {/* Buy Modal */}
-      <Dialog open={isBuyModalOpen} onOpenChange={setIsBuyModalOpen}>
+      {/* Buy Modal */}
+    <Dialog open={isBuyModalOpen} onOpenChange={setIsBuyModalOpen}>
         <DialogContent>
-          <DialogHeader>
+            <DialogHeader>
             <DialogTitle>Buy {stock.symbol} Stock</DialogTitle>
-          </DialogHeader>
-          <div className="flex items-center justify-between mt-4">
+            </DialogHeader>
+            <div className="flex items-center justify-between mt-4">
             <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))} className="p-2 bg-gray-600 text-white rounded-none"><MinusIcon /></button>
             <Input type="number" value={quantity} readOnly className="mx-4 text-center rounded-none" />
             <button onClick={() => setQuantity(prev => prev + 1)} className="p-2 bg-gray-600 text-white rounded-none"><PlusIcon /></button>
-          </div>
-          <DialogFooter>
+            </div>
+            <div className="mt-4 text-lg text-black">
+            Estimated Cost: ${(stock.price * quantity).toFixed(2)}
+            </div>
+            <DialogFooter>
             <Button variant="outline" onClick={() => setIsBuyModalOpen(false)}>Cancel</Button>
             <Button onClick={buyStock}>Confirm</Button>
-          </DialogFooter>
+            </DialogFooter>
         </DialogContent>
-      </Dialog>
+        </Dialog>
 
-      {/* Sell Modal */}
-      <Dialog open={isSellModalOpen} onOpenChange={setIsSellModalOpen}>
+        {/* Sell Modal */}
+        <Dialog open={isSellModalOpen} onOpenChange={setIsSellModalOpen}>
         <DialogContent>
-          <DialogHeader>
+            <DialogHeader>
             <DialogTitle>Sell {stock.symbol} Stock</DialogTitle>
-          </DialogHeader>
-          <div className="flex items-center justify-between mt-4">
-            <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))} className="p-2 bg-gray-600 text-white rounded-none"><MinusIcon /></button>
+            </DialogHeader>
+            <div className="flex items-center justify-between mt-4">
+            <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))} className="p-2 bg-gray-600 text-black rounded-none"><MinusIcon /></button>
             <Input type="number" value={quantity} readOnly className="mx-4 text-center rounded-none" />
-            <button onClick={() => setQuantity(prev => prev + 1)} className="p-2 bg-gray-600 text-white rounded-none"><PlusIcon /></button>
-          </div>
-          <DialogFooter>
+            <button onClick={() => setQuantity(prev => prev + 1)} className="p-2 bg-gray-600 text-black rounded-none"><PlusIcon /></button>
+            </div>
+            <div className="mt-4 text-lg text-black">
+            Estimated Sale Amount: ${(stock.price * quantity).toFixed(2)}
+            </div>
+            <DialogFooter>
             <Button variant="outline" onClick={() => setIsSellModalOpen(false)}>Cancel</Button>
             <Button onClick={sellStock}>Confirm</Button>
-          </DialogFooter>
+            </DialogFooter>
         </DialogContent>
-      </Dialog>
+        </Dialog>
+
     </div>
   )
 }
