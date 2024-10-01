@@ -16,6 +16,7 @@ export const Navbar = () => {
     { name: "Investing", link: "/courses/investing" },
     { name: "Retirement Planning", link: "/courses/retirementplanning" },
     { name: "Budgeting", link: "/courses/budgetting" },
+    { name: "Savings", link: "/courses/saving" },
   ];
 
   const subNavigationGames = [

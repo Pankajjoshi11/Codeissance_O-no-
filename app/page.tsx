@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { benefitOne, benefitTwo } from "@/components/data";
+import Marquee from "@/components/Marquee";
 
 // Define Article Type
 interface Article {
@@ -54,6 +55,7 @@ export default function Home() {
   return (
     <Container>
       <Hero />
+      <Marquee/>
       
       <Benefits data={benefitOne} />
       <Benefits imgPos="right" data={benefitTwo} />

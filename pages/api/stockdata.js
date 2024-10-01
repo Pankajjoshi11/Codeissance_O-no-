@@ -4,7 +4,14 @@ const request = require('request');
 
 export default function handler(req, res) {
   const ALPHAAPI_KEY = process.env.ALPHAAPI_KEY;
-  const stocks = ['RELIANCE.BSE', 'TCS.BSE', 'INFY.BSE']; // Add your stock symbols here
+  const stocks = [
+    'RELIANCE.BSE', 
+    'TCS.BSE', 
+    'INFY.BSE', 
+    'HDFCBANK.BSE', 
+    'ITC.BSE', 
+    'BAJFINANCE.BSE'
+  ]; // Added HDFCBANK, ITC, and BAJFINANCE stock symbols
   const stockData = {};
 
   let completedRequests = 0;
